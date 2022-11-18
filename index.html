@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/custom.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-auto-animate>
+					<h2 style="font-size: 5rem;">Apresentação do Grupo</h2>
+				</section>
+				<section data-auto-animate>
+					<h2>Apresentação do Grupo</h2>
+					<ul>
+						<li class="fragment">ANDRÉ LUIS DA SILVA</li>
+						<li class="fragment">ANDRE LUIS PERNA</li>
+						<li class="fragment">DOUGLAS CARVALHO</li>
+						<li class="fragment">FELIPE MATTHIESEN BONOTO</li>
+						<li class="fragment">JOÃO FLAVIO DINIZ</li>
+						<li class="fragment">LUCI GONSALVES ROCHA MUNHOZ</li>
+						<li class="fragment">MARCOS PAULO DA SILVA</li>
+						<li class="fragment">WELLINGTON PEREIRA DE CARVALHO</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2 style="font-size: 5rem;">Introdução</h12>
+				</section>
+
+				<section data-auto-animate>
+					<h2 style="font-size: 5rem;">HARDWARE</h2>
+				</section>
+
+				<section  data-auto-animate>
+					<h2>HARDWARE</h2>
+					<h3>ESP32</h3>
+					<img src="./img/esp32.webp" alt="ESP32" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: https://www.saravati.com.br/placa-esp32-wifi-/-bluetooth-devkit-v1-30-pinos</p>
+				</section>
+
+				<section  data-auto-animate>
+					<h2>HARDWARE</h2>
+					<h3>Sensores - Temperatura e Umidade</h3>
+					<img src="./img/dht22.webp" alt="DHT22" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: https://produto.mercadolivre.com.br/MLB-1345192323-dht22-sensor-temperatura-e-umidade-para-arduino-_JM</p>
+				</section>
+
+				<section  data-auto-animate>
+					<h2>HARDWARE</h2>
+					<h3>Sensores - Tensão</h3>
+					<img src="./img/sensor-tensao.png" alt="DHT22" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: https://www.robocore.net/sensor-corrente-tensao/sensor-de-tensao-0-a-25v</p>
+				</section>
+			
+				<section  data-auto-animate>
+					<h2>HARDWARE</h2>
+					<h3>Atuadores - Ventilador (Cooler)</h3>
+					<img src="./img/cooler.webp" alt="DHT22" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: https://produto.mercadolivre.com.br/MLB-1007372190-fan-cooler-120x120x25-micro-ventilador-12v-120mm-_JM</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2 style="font-size: 5rem;">PROTÓTIPO</h2>
+				</section>
+
+				<section data-auto-animate>
+					<h2>PROTÓTIPO</h2>
+					<h3>Diagrama</h3>
+					<img src="./img/esquema.png" alt="DHT22" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: Próprio Autor</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>PROTÓTIPO</h2>
+					<h3>Montagem Física</h3>
+					<img src="./img/montagem.png" alt="DHT22" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: Próprio Autor</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2 style="font-size: 5rem;">SOFTWARE</h2>
+				</section>
+
+				<section data-auto-animate>
+					<h2>SOFTWARE</h2>
+					<h3>BANCO DE DADOS TEMPORAL</h3>
+					<img src="./img/influxdb.png" alt="DHT22" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: https://www.learningmilestone.com/post/steps-to-setup-influxdb-on-windows</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>SOFTWARE</h2>
+					<h3>Exemplo de Consulta</h3>
+					<pre>
+						<code data-trim data-noescape data-line-numbers="1|2|3|4|5">
+							from(bucket: "tcc-bucket")
+								|> range(start: -1h)
+								|> filter(fn: (r) => r["_field"] == "tensaoBateria")
+								|> aggregateWindow(every: 10s, fn: mean)
+								|> yield() //gera resultado da consulta
+						</code>
+					</pre>
+
+				</section>
+
+				<section data-auto-animate>
+					<h2>SOFTWARE</h2>
+					<h3>Exemplo de Consulta</h3>
+					<pre>
+						<code data-trim data-noescape data-line-numbers="1-5">
+							from(bucket: "tcc-bucket")
+								|> range(start: -1h)
+								|> filter(fn: (r) => r["_field"] == "tensaoBateria")
+								|> aggregateWindow(every: 10s, fn: mean)
+								|> yield() //gera resultado da consulta
+						</code>
+					</pre>
+
+					<table style="font-size: 2rem;">
+						<tr>
+							<td>_time</td>
+							<td></td>
+							<td>_value</td>
+						</tr>
+						<tr>
+							<td>2022-11-18 09:22:20 GMT-3</td>
+							<td></td>
+							<td>4,90</td>
+						</tr>
+						<tr>
+							<td>2022-11-18 09:22:30 GMT-3</td>
+							<td></td>
+							<td>4,90</td>
+						</tr>
+						<tr>
+							<td>2022-11-18 09:22:40 GMT-3</td>
+							<td></td>
+							<td>4,71</td>
+						</tr>
+						<tr>
+							<td>2022-11-18 09:22:50 GMT-3</td>
+							<td></td>
+							<td>4,71</td>
+						</tr>
+						<tr>
+							<td>2022-11-18 09:23:00 GMT-3</td>
+							<td></td>
+							<td>4,80</td>
+						</tr>
+					</table>
+				</section>
+
+				<section data-auto-animate>
+					<h2 style="font-size: 5rem;">SOFTWARE - PROTOTIPAGEM</h2>
+				</section>
+
+				<section data-auto-animate>
+					<h2>SOFTWARE - PROTOTIPAGEM</h2>
+					<h3>IAAS - Computação em Nuvem</h3>
+					<img src="./img/oracle-cloud.png" alt="DHT22" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: Próprio Autor</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>SOFTWARE - PROTOTIPAGEM</h2>
+					<h3>IAAS - Computação em Nuvem</h3>
+					<img src="./img/putty.png" alt="DHT22" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: Próprio Autor</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>SOFTWARE - PROTOTIPAGEM</h2>
+					<h3>NODE-RED</h3>
+					<img src="./img/node-red.png" alt="node-red" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: Próprio Autor</p>
+				</section>
+
+				<section data-auto-animate data-auto-animate-id="two">
+					<iframe src="http://tccunivesp.freeddns.org:1880/admin/" frameborder="0" style="height: 40rem; width: 80rem"></iframe>
+				</section>
+
+				<section data-auto-animate>
+					<h2>SOFTWARE - PROTOTIPAGEM</h2>
+					<h3>Plataforma WEB</h3>
+					<img src="./img/plat-web.png" alt="node-red" style="height: 25rem">
+					<p style="font-size:1rem;">Fonte: Próprio Autor</p>
+				</section>
+
+				<section data-auto-animate data-auto-animate-id="two">
+					<iframe src="http://tccunivesp.freeddns.org:1880" frameborder="0" style="height: 40rem; width: 80rem"></iframe>
+				</section>
+
+				<section data-auto-animate data-auto-animate-id="two">
+					<iframe src="http://tccunivesp.freeddns.org:1880" frameborder="0" style="height: 40rem; width: 20rem"></iframe>
+				</section>
+
+				<section>
+					<h2 style="font-size: 5rem;">Conclusão</h12>
+				</section>
+			
+			
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
